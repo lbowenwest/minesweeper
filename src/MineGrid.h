@@ -11,6 +11,7 @@
 #include "Square.h"
 #include "SFMLWidget.h"
 
+// TODO refactor into MineGrid which doesn't depend on SMLFWidget
 
 class MineGrid : public SFMLWidget {
 public:
@@ -35,6 +36,7 @@ public:
 
     std::vector<coord> mine_locations{};
     std::vector<coord> flag_locations{};
+
 protected:
     bool on_button_press_event(GdkEventButton* event) override;
 
@@ -52,7 +54,7 @@ private:
         {"2",          {19,  70, 16, 16}},
         {"3",          {36,  70, 16, 16}},
         {"4",          {53,  70, 16, 16}},
-        {"5",          {70,  70, 16, 16}},
+        {"5",          {70,  70, 16, 16}}, 
         {"6",          {87,  70, 16, 16}},
         {"7",          {104, 70, 16, 16}},
         {"8",          {121, 70, 16, 16}},
@@ -115,29 +117,10 @@ private:
      * Searches vector of flag locations for square at
      * given position
      *
-     * @param row - Row of square to check for flag
-     * @param col - Column of square to check for flag
-     * @return True if flag, false if not
-     */
-    bool is_flag(std::size_t row, std::size_t col);
-
-    /**
-     * Searches vector of flag locations for square at
-     * given position
-     *
      * @param co - Coordinates to search for flag
      * @return True if flag, false if not
      */
     bool is_flag(coord co);
-
-    /**
-     * Searches vector of mine locations for given square
-     *
-     * @param row - Row of square to check
-     * @param col - Column of square to check
-     * @return true if mine, false if not
-     */
-    bool is_mine(std::size_t row, std::size_t col);
 
     /**
      * Searches vector of mine locations for given square

@@ -9,7 +9,7 @@
 
 
 /**
- *
+ * MineGrid constructor
  */
 MineGrid::MineGrid()
     : SFMLWidget{sf::VideoMode(800, 800)},
@@ -64,6 +64,8 @@ bool MineGrid::on_button_press_event(GdkEventButton* event) {
         case Click::RIGHT:
             right_click(row, col);
             break;
+        case Click::MIDDLE:
+            break;
         default:
             break;
     }
@@ -87,9 +89,11 @@ void MineGrid::left_click(std::size_t row, std::size_t col) {
         auto neigh = grid->neighbours(row, col);
         // calculates number of squares marked as flags
         // around clicked square
-        long num_flags = std::count_if(neigh.begin(), neigh.end(), [this](coord c) {
-            return is_flag(c);
-        });
+        long num_flags = std::count_if(neigh.begin(), neigh.end(),
+            [this](coord c) {
+                return is_flag(c);
+            }
+        );
         if (num_flags >= grid->get(row, col).adjacent_mines) {
             for (auto& co : grid->neighbours(row, col)) {
                 if (is_flag(co))
@@ -213,19 +217,9 @@ void MineGrid::reveal_square(std::size_t row, std::size_t col) {
 }
 
 
-inline bool MineGrid::is_flag(std::size_t row, std::size_t col) {
-    return is_flag(coord{row, col});
-}
-
-
 bool MineGrid::is_flag(MineGrid::coord co) {
     auto result = std::find(flag_locations.begin(), flag_locations.end(), co);
     return result != flag_locations.end();
-}
-
-
-inline bool MineGrid::is_mine(std::size_t row, std::size_t col) {
-    return is_mine(coord{row, col});
 }
 
 
